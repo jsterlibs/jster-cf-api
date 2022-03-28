@@ -1,0 +1,11 @@
+{
+  "allow": ["net", "read"],
+  "scripts": {
+    "worker:serve-ping": {
+      "cmd": "denoflare serve ping"
+    },
+    "worker:publish-ping": {
+      "cmd": "denoflare push ping"
+    }
+  }
+}

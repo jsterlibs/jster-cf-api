@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/skymethod/denoflare/v0.4.4/common/config.schema.json",
+  "scripts": {
+    "ping": {
+      "path": "workers/ping.ts",
+      "localPort": 3030
+    }
+  },
+  "profiles": {
+    "account1": {
+      "accountId": "TODO",
+      "apiToken": "TODO"
+    }
+  }
+}
