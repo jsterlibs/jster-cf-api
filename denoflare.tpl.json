@@ -7,7 +7,12 @@
     },
     "stargazers": {
       "path": "workers/stargazers.ts",
-      "localPort": 3030
+      "localPort": 3030,
+      "bindings": {
+        "privateKey1": { "value": "TODO" },
+        "privateKey2": { "value": "TODO" },
+        "privateKey3": { "value": "TODO" }
+      },
     }
   },
   "profiles": {
