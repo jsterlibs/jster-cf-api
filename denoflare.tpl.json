@@ -4,6 +4,10 @@
     "ping": {
       "path": "workers/ping.ts",
       "localPort": 3030
+    },
+    "stargazers": {
+      "path": "workers/stargazers.ts",
+      "localPort": 3030
     }
   },
   "profiles": {
