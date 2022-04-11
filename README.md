@@ -31,6 +31,7 @@ The stargazers endpoint needs a private key. Set it up like this:
 ## Reference
 
 * [Workers documentation](https://developers.cloudflare.com/workers/)
+* [GitHub rate limits](https://docs.github.com/en/developers/apps/building-github-apps/rate-limits-for-github-apps) - it seems for apps, the limit is 5000 requests per hour meaning a caching strategy is a good thing to have
 
 ## TODO
 
