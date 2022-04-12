@@ -3,7 +3,11 @@ import { createAppAuth } from "https://cdn.skypack.dev/@octokit/auth-app@3.6.1";
 export default {
   async fetch(
     request: Request,
-    env: { clientId: string; clientSecret: string; privateKey: CryptoKey },
+    env: {
+      clientId: CryptoKey;
+      clientSecret: CryptoKey;
+      privateKey: CryptoKey;
+    },
   ) {
     const { searchParams } = new URL(request.url);
     const organization = searchParams.get("organization");
