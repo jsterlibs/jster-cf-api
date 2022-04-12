@@ -1,7 +1,9 @@
+import { createAppAuth } from "https://cdn.skypack.dev/@octokit/auth-app@3.6.1";
+
 export default {
   async fetch(
     request: Request,
-    env: { privateKey1: string; privateKey2: string; privateKey3: string },
+    env: { clientId: string; clientSecret: string; privateKey: CryptoKey },
   ) {
     const { searchParams } = new URL(request.url);
     const organization = searchParams.get("organization");
@@ -26,18 +28,19 @@ export default {
 
     // TODO: Add token in front (see survivejs api)
     // TODO: Cache responses using kv (cache for a day)
-
-    const privateKey = [env.privateKey1, env.privateKey2, env.privateKey3].join(
-      "\n",
-    );
+    const auth = createAppAuth({
+      appId: 1,
+      privateKey: env.privateKey,
+      clientId: env.clientId,
+      clientSecret: env.clientSecret,
+    });
+    const jwt = await auth({ type: "app" });
     const response = await fetch(
       `https://api.github.com/repos/${organization}/${repository}`,
       {
         headers: {
           "Accept": "application/vnd.github.v3+json",
-
-          // TODO: Get from env
-          "Authorization": `Bearer ${privateKey}`,
+          "Authorization": `${jwt.token}`,
         },
       },
     );

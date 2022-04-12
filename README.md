@@ -25,8 +25,8 @@ The stargazers endpoint needs a private key. Set it up like this:
 
 1. Head to https://github.com/organizations/jsterlibs/settings/apps/jster-cloudflare-api and generate one using the `Private keys` section
 2. Paste the private key somewhere
-3. Split it using `split -l 10 private-key-pkcs8.pem`. This generates `xaa`, `xab`, and `xac`.
-4. Set the parts to `PRIVATE_KEY_1`, `PRIVATE_KEY_2`, and `PRIVATE_KEY_3` at Denoflare env (`.denoflare`)
+3. Convert the key to PKCS#8. See https://github.com/gr2m/universal-github-app-jwt#readme for the instructions
+4. Set the value to the `privateKey` property while adding linebreaks (the last one is important!)
 
 ## Reference
 
