@@ -28,6 +28,14 @@ The stargazers endpoint needs a private key. Set it up like this:
 3. Convert the key to PKCS#8. See https://github.com/gr2m/universal-github-app-jwt#readme for the instructions
 4. Set the value to the `privateKey` property while adding linebreaks (the last one is important!)
 
+To request from the API, try the following:
+
+```
+http://localhost:3030/?organization=plotly&repository=dash
+```
+
+The `Authorization` header should be set to match `apiSecret` with `Bearer` in front like this: `Bearer <your apiSecret goes here>`.
+
 ## Reference
 
 * [Workers documentation](https://developers.cloudflare.com/workers/)
@@ -36,7 +44,7 @@ The stargazers endpoint needs a private key. Set it up like this:
 
 ## TODO
 
-* TODO
+* Figure out how to test HTTPS locally
 
 ## Caveats
 
