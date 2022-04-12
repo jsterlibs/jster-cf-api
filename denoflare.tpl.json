@@ -9,6 +9,7 @@
       "path": "workers/stargazers.ts",
       "localPort": 3030,
       "bindings": {
+        "apiSecret": { "secret": "TODO" },
         "clientId": { "secret": "TODO" },
         "clientSecret": { "secret": "TODO" },
         "privateKey": { "secret": "TODO" }

@@ -1,15 +1,38 @@
 import { createAppAuth } from "https://cdn.skypack.dev/@octokit/auth-app@3.6.1";
 
+// TODO: Cache responses using kv (cache for a day)
 export default {
   async fetch(
     request: Request,
     env: {
+      apiSecret: CryptoKey;
       clientId: CryptoKey;
       clientSecret: CryptoKey;
       privateKey: CryptoKey;
     },
   ) {
-    const { searchParams } = new URL(request.url);
+    const { protocol, searchParams } = new URL(request.url);
+
+    // In the case of a "Basic" authentication, the exchange
+    // MUST happen over an HTTPS (TLS) connection to be secure.
+    if (
+      "https:" !== protocol ||
+      "https" !== request.headers.get("x-forwarded-proto")
+    ) {
+      return new Response(
+        `{ "error": "Please use a HTTPS connection" }`,
+        {
+          status: 500,
+          headers: { "content-type": "application/json" },
+        },
+      );
+    }
+
+    // Adapted from https://developers.cloudflare.com/workers/examples/auth-with-headers
+    if (request.headers.get("Authorization") !== `Bearer ${env.apiSecret}`) {
+      return new Response("You need to login.", { status: 401 });
+    }
+
     const organization = searchParams.get("organization");
     const repository = searchParams.get("repository");
 
@@ -30,8 +53,6 @@ export default {
       });
     }
 
-    // TODO: Add token in front (see survivejs api)
-    // TODO: Cache responses using kv (cache for a day)
     const auth = createAppAuth({
       appId: 1,
       privateKey: env.privateKey,
