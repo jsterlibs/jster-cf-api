@@ -45,6 +45,8 @@ https://localhost:3030/?organization=plotly&repository=dash
 
 The `Authorization` header should be set to match `apiSecret` with `Bearer` in front like this: `Bearer <your apiSecret goes here>`. Also `x-forwarded-proto` has to be set to match `https`.
 
+> The deployed version can be seen at https://cf-api.jster.net/stargazers
+
 ## Reference
 
 * [Workers documentation](https://developers.cloudflare.com/workers/)

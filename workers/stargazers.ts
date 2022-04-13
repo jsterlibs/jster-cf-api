@@ -63,19 +63,16 @@ export default {
     }
 
     const itemKey = `${organization}-${repository}`;
-    const dbItem = await env.db.getWithMetadata(itemKey, {
+
+    // @ts-ignore The type is wrong here
+    const { value, metadata } = await env.db.getWithMetadata(itemKey, {
       type: "text",
     });
     // In ms
     const currentTime = (new Date()).getTime();
 
-    if (dbItem) {
-      const { value: stargazers, metadata } = dbItem;
-
-      // @ts-ignore Cloudflare type doesn't allow passing metadata as a generic
-      if (metadata.timestamp > currentTime - ONE_DAY) {
-        return new Response(JSON.stringify({ stargazers }), JSON_OK);
-      }
+    if (metadata && (metadata.timestamp > currentTime - ONE_DAY)) {
+      return new Response(JSON.stringify({ stargazers: value }), JSON_OK);
     }
 
     const auth = createAppAuth({
@@ -84,13 +81,17 @@ export default {
       clientId: env.clientId,
       clientSecret: env.clientSecret,
     });
+
     const jwt = await auth({ type: "app" });
+
     const response = await fetch(
       `https://api.github.com/repos/${organization}/${repository}`,
       {
         headers: {
           "Accept": "application/vnd.github.v3+json",
-          "Authorization": `${jwt.token}`,
+          "Authorization": jwt.token,
+          // https://stackoverflow.com/questions/39907742/github-api-is-responding-with-a-403-when-using-requests-request-function
+          "User-Agent": "request",
         },
       },
     );
