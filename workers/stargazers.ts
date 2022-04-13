@@ -1,6 +1,14 @@
 import { createAppAuth } from "https://cdn.skypack.dev/@octokit/auth-app@3.6.1";
+import type { KVNamespace } from "https://raw.githubusercontent.com/skymethod/denoflare/v0.4.4/common/cloudflare_workers_types.d.ts";
 
-// TODO: Cache responses using kv (cache for a day)
+const ONE_DAY = 1000 * 60 * 60 * 24;
+const JSON_OK = {
+  status: 200,
+  headers: {
+    "content-type": "application/json",
+  },
+};
+
 export default {
   async fetch(
     request: Request,
@@ -8,6 +16,7 @@ export default {
       apiSecret: CryptoKey;
       clientId: CryptoKey;
       clientSecret: CryptoKey;
+      db: KVNamespace;
       privateKey: CryptoKey;
     },
   ) {
@@ -53,6 +62,22 @@ export default {
       });
     }
 
+    const itemKey = `${organization}-${repository}`;
+    const dbItem = await env.db.getWithMetadata(itemKey, {
+      type: "text",
+    });
+    // In ms
+    const currentTime = (new Date()).getTime();
+
+    if (dbItem) {
+      const { value: stargazers, metadata } = dbItem;
+
+      // @ts-ignore Cloudflare type doesn't allow passing metadata as a generic
+      if (metadata.timestamp > currentTime - ONE_DAY) {
+        return new Response(JSON.stringify({ stargazers }), JSON_OK);
+      }
+    }
+
     const auth = createAppAuth({
       appId: 1,
       privateKey: env.privateKey,
@@ -72,14 +97,15 @@ export default {
     const responseJson = await response.json();
     const { stargazers_count: stargazers } = responseJson;
 
+    await env.db.put(itemKey, stargazers, {
+      metadata: {
+        timestamp: currentTime,
+      },
+    });
+
     return new Response(
       JSON.stringify({ stargazers }),
-      {
-        status: 200,
-        headers: {
-          "content-type": "application/json",
-        },
-      },
+      JSON_OK,
     );
   },
 };

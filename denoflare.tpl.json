@@ -12,6 +12,7 @@
         "apiSecret": { "secret": "TODO" },
         "clientId": { "secret": "TODO" },
         "clientSecret": { "secret": "TODO" },
+        "db": { "kvNamespace": "TODO" },
         "privateKey": { "secret": "TODO" }
       }
     }
