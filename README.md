@@ -11,7 +11,9 @@ The repository includes the following workers:
 * `ping` returns a `pong` text for testing
 * `stargazers` returns the amount of stargazers related to a repository. This needs extra config (see below)
 
-To get started with the workers, copy `denoflare.tpl.json` as `.denoflare` and make sure you [denoflare](https://denoflare.dev/) installed.
+To get started with the workers, copy `denoflare.tpl.json` as `.denoflare` and make sure [denoflare](https://denoflare.dev/) is installed.
+
+> For now, you have to use the `master` version (i.e. `https://raw.githubusercontent.com/skymethod/denoflare/master/cli/cli.ts`) since the SSL feature is only there
 
 To run a worker locally, use `vr worker:serve-<worker name>`.
 
@@ -28,13 +30,20 @@ The stargazers endpoint needs a private key. Set it up like this:
 3. Convert the key to PKCS#8. See https://github.com/gr2m/universal-github-app-jwt#readme for the instructions
 4. Set the value to the `privateKey` property while adding linebreaks (the last one is important!)
 
+As the API is behind HTTPS, it needs a certificate:
+
+1. `mkcert -key-file key.pem -cert-file cert.pem localhost`
+2. `mkcert -install` (`mkcert` is available through brew for example)
+
+> https://words.filippo.io/mkcert-valid-https-certificates-for-localhost/ is good reference on the topic.
+
 To request from the API, try the following:
 
 ```
-http://localhost:3030/?organization=plotly&repository=dash
+https://localhost:3030/?organization=plotly&repository=dash
 ```
 
-The `Authorization` header should be set to match `apiSecret` with `Bearer` in front like this: `Bearer <your apiSecret goes here>`.
+The `Authorization` header should be set to match `apiSecret` with `Bearer` in front like this: `Bearer <your apiSecret goes here>`. Also `x-forwarded-proto` has to be set to match `https`.
 
 ## Reference
 

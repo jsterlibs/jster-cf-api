@@ -2,13 +2,13 @@
   "allow": ["net", "read"],
   "scripts": {
     "worker:serve-ping": {
-      "cmd": "denoflare serve ping"
+      "cmd": "denoflare --cert-pem cert.pem --key-pem key.pem serve ping"
     },
     "worker:publish-ping": {
       "cmd": "denoflare push ping"
     },
     "worker:serve-stargazers": {
-      "cmd": "denoflare serve stargazers"
+      "cmd": "denoflare --cert-pem cert.pem --key-pem key.pem serve stargazers"
     },
     "worker:publish-stargazers": {
       "cmd": "denoflare push stargazers"

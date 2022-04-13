@@ -1,2 +1,4 @@
 .config.json
 .denoflare
+cert.pem
+key.pem
