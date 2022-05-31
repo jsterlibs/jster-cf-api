@@ -9,6 +9,11 @@ const JSON_OK = {
   },
 };
 
+// TODO: The problem here is that GitHub can run out of quota. To solve,
+// don't cache if there's no result.
+//
+// Also some repositories don't exist on GitHub. That case should likely
+// be detected and handled as well.
 export default {
   async fetch(
     request: Request,
