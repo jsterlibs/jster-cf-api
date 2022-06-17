@@ -9,6 +9,7 @@ The code in the repository depends on [Deno](https://deno.land/) and [velocirapt
 The repository includes the following workers:
 
 * `ping` returns a `pong` text for testing
+* `security` returns the amount of stargazers related to a repository. This needs extra config (see below)
 * `stargazers` returns the amount of stargazers related to a repository. This needs extra config (see below)
 
 To get started with the workers, copy `denoflare.tpl.json` as `.denoflare` and make sure [denoflare](https://denoflare.dev/) is installed.
@@ -20,6 +21,11 @@ To run a worker locally, use `vr worker:serve-<worker name>`.
 To publish, use `worker:publish-<worker name>`. For this, you have to take care to configure Cloudflare first so that workers are enabled. After initial publish, you have to enable the route through the `Triggers` tab related to the worker at Cloudflare UI.
 
 Once it's running, you'll have something like `https://<worker name>.mynamespace.workers.dev/` available for the worker.
+
+## Configuring security
+
+1. Make sure a KV store is set up a Cloudflare and copy its id to Denoflare configuration
+2. Request the API (see below)
 
 ## Configuring stargazers
 

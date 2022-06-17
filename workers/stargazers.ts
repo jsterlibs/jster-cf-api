@@ -1,5 +1,5 @@
 import { createAppAuth } from "https://cdn.skypack.dev/@octokit/auth-app@3.6.1";
-import type { KVNamespace } from "https://raw.githubusercontent.com/skymethod/denoflare/v0.4.4/common/cloudflare_workers_types.d.ts";
+import type { KVNamespace } from "https://raw.githubusercontent.com/skymethod/denoflare/v0.5.2/common/cloudflare_workers_types.d.ts";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const JSON_OK = {
